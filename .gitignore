@@ -1,0 +1,36 @@
+<<<<<<< HEAD
+node_modules/*
+package-lock.json
+yarn.lock
+=======
+# ---> Vue
+# gitignore template for Vue.js projects
+#
+# Recommended template: Node.gitignore
+
+# TODO: where does this rule come from?
+docs/_book
+
+# TODO: where does this rule come from?
+test/
+
+node_modules/
+/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+{{#unit}}
+/test/unit/coverage/
+{{/unit}}
+{{#e2e}}
+/test/e2e/reports/
+selenium-debug.log
+{{/e2e}}
+>>>>>>> 9f54250cd9b27d8216520ca5f65445aa826781ab
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

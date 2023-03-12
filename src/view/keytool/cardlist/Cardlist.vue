@@ -462,7 +462,7 @@ import {
 import FileSaver from 'file-saver'
 import XLSX from 'xlsx'
 
-import { getAppList, getAppName } from '@/api/App'
+import { getAppList, getAppName } from '@/api/class'
 import { nextTick, ref, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { exportExcel } from '@/api/excel'

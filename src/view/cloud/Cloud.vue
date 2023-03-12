@@ -160,7 +160,7 @@ import { getAuthorityList } from '@/api/authority'
 import CustomPic from '@/components/customPic/index.vue'
 import ChooseImg from '@/components/chooseImg/index.vue'
 import warningBar from '@/components/warningBar/warningBar.vue'
-import { getAppList } from '@/api/App'
+// import { getAppList } from '@/api/App'
 import { nextTick, ref, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
@@ -238,7 +238,7 @@ const delVar = async() => {
 // 查询
 const getTableData = async() => {
   const table = await GetVarList({ page: page.value, pageSize: pageSize.value , APP_ID: queryappid })
-  const App_list = await getAppList()
+  // const App_list = await getAppList()
   app_list.value = App_list
   if (table.code === 0) {
     tableData.value = table.data.list

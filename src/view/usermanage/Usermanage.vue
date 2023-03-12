@@ -231,7 +231,7 @@ import { setUserInfo, resetPassword, BanHwid } from '@/api/user.js'
 import { formatTimeToStr } from '@/utils/date'
 import { nextTick, ref, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getAppList } from '../../api/App'
+import { getAppList } from '../../api/class'
 const path = ref(import.meta.env.VITE_BASE_API)
 const app_list = ref([])
 

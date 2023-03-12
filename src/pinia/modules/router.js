@@ -78,13 +78,103 @@ export const useRouterStore = defineStore('router', () => {
             'hidden': false,
             'component': 'view/classmanage/Classmanage.vue',
             'sort': 0,
-            'icon': 'user',
+            'icon': 'House',
             'ID': 2,
             'menuId': 2,
             'meta': {
               'keepAlive': false,
               'title': '班级管理',
+              'icon': 'House',
+              'closeTab': false
+            },
+            'children': []
+          },
+          {
+            'parentId': '0',
+            'path': 'userlist',
+            'name': 'userlist',
+            'hidden': false,
+            'component': 'view/userlist/Userlist.vue',
+            'sort': 0,
+            'icon': 'user',
+            'ID': 3,
+            'menuId': 3,
+            'meta': {
+              'keepAlive': false,
+              'title': '学生管理',
               'icon': 'user',
+              'closeTab': false
+            },
+            'children': []
+          },
+          {
+            'parentId': '0',
+            'path': 'lessonlist',
+            'name': 'lessonlist',
+            'hidden': false,
+            'component': 'view/lessonlist/Lessonlist.vue',
+            'sort': 0,
+            'icon': 'Collection',
+            'ID': 4,
+            'menuId': 4,
+            'meta': {
+              'keepAlive': false,
+              'title': '课程管理',
+              'icon': 'Collection',
+              'closeTab': false
+            },
+            'children': []
+          },
+          {
+            'parentId': '0',
+            'path': 'classroom',
+            'name': 'classroom',
+            'hidden': false,
+            'component': 'view/classroom/Classroom.vue',
+            'sort': 0,
+            'icon': 'DataBoard',
+            'ID': 4,
+            'menuId': 4,
+            'meta': {
+              'keepAlive': false,
+              'title': '课室管理',
+              'icon': 'DataBoard',
+              'closeTab': false
+            },
+            'children': []
+          },
+          {
+            'parentId': '0',
+            'path': 'lessontime',
+            'name': 'lessontime',
+            'hidden': false,
+            'component': 'view/lessontime/Lessontime.vue',
+            'sort': 0,
+            'icon': 'Timer',
+            'ID': 4,
+            'menuId': 4,
+            'meta': {
+              'keepAlive': false,
+              'title': '课程时间管理',
+              'icon': 'Timer',
+              'closeTab': false
+            },
+            'children': []
+          },
+          {
+            'parentId': '0',
+            'path': 'signhistory',
+            'name': 'signhistory',
+            'hidden': false,
+            'component': 'view/signhistory/Signhistory.vue',
+            'sort': 0,
+            'icon': 'DocumentChecked',
+            'ID': 4,
+            'menuId': 4,
+            'meta': {
+              'keepAlive': false,
+              'title': '签到记录',
+              'icon': 'DocumentChecked',
               'closeTab': false
             },
             'children': []
@@ -103,61 +193,6 @@ export const useRouterStore = defineStore('router', () => {
               'keepAlive': false,
               'title': '帳號詳情',
               'icon': 'user',
-              'closeTab': false
-            },
-            'children': []
-          },
-
-          {
-            'parentId': '0',
-            'path': 'machinelist',
-            'name': 'machinelist',
-            'hidden': false,
-            'component': 'view/machinelist/Machinelist.vue',
-            'sort': 0,
-            'icon': 'monitor',
-            'ID': 4,
-            'menuId': 4,
-            'meta': {
-              'keepAlive': false,
-              'title': '設備列表',
-              'icon': 'monitor',
-              'closeTab': false
-            },
-            'children': []
-          },
-          {
-            'parentId': '0',
-            'path': 'machineinfo',
-            'name': 'machineinfo',
-            'hidden': true,
-            'component': 'view/machineinfo/Machineinfo.vue',
-            'sort': 0,
-            'icon': 'user',
-            'ID': 10,
-            'menuId': 10,
-            'meta': {
-              'keepAlive': false,
-              'title': '設備詳情',
-              'icon': 'user',
-              'closeTab': false
-            },
-            'children': []
-          },
-          {
-            'parentId': '0',
-            'path': 'cardlist',
-            'name': 'cardlist',
-            'hidden': false,
-            'component': 'view/cardlist/Cardlist.vue',
-            'sort': 0,
-            'icon': 'key',
-            'ID': 5,
-            'menuId': 5,
-            'meta': {
-              'keepAlive': false,
-              'title': '卡密列表',
-              'icon': 'key',
               'closeTab': false
             },
             'children': []

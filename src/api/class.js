@@ -32,9 +32,26 @@ export const GetClassList = (data) => {
     data: data
   })
 }
-export const getAppName = (data) => {
+
+
+
+export const GetUserList = (data) => {
   return service({
-    url: '/getAppName',
+    url: '/GetUserList',
+    method: 'post',
+    data: data
+  })
+}
+export const DelClass = (data) => {
+  return service({
+    url: '/DelClass',
+    method: 'post',
+    data: data
+  })
+}
+export const SetUserInfo = (data) => {
+  return service({
+    url: '/SetUserInfo',
     method: 'post',
     data: data
   })

@@ -3,8 +3,8 @@
     <div class="gva-card-box">
       <div class="gva-card gva-top-card">
         <div class="gva-top-card-left">
-          <div class="gva-top-card-left-title">{{ $t('message.welcome') }}</div>
-          <el-button @click=" change" />
+          <div class="gva-top-card-left-title">Welcome To 课堂考勤签到系统</div>
+<!--          <el-button @click=" change" />-->
           <div class="gva-top-card-left-dot">今日晴，-999℃ - 1000℃，天气寒冷，注意添加衣物。</div>
           <div class="gva-top-card-left-rows">
             <el-row>
@@ -381,7 +381,7 @@
 
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getAppList } from '@/api/App'
+// import { getAppList } from '@/api/App'
 import { getAuthorityList } from '@/api/authority'
 
 const page = ref(1)

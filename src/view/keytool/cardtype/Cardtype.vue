@@ -199,7 +199,7 @@ import {
 import ChooseImg from '@/components/chooseImg/index.vue'
 import warningBar from '@/components/warningBar/warningBar.vue'
 import { setCardTypeInfo } from '@/api/Card.js'
-import { getAppName } from '@/api/App'
+import { getAppName } from '@/api/class'
 import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'

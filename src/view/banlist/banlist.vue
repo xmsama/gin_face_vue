@@ -143,7 +143,7 @@ import {
   getAppList,
   SetAppInfo,
 
-} from '@/api/App'
+} from '@/api/class'
 
 import CustomPic from '@/components/customPic/index.vue'
 import ChooseImg from '@/components/chooseImg/index.vue'

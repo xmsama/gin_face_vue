@@ -97,7 +97,6 @@
 
         <el-form ref="userForm" :rules="rules" :model="VarInfo" label-width="80px">
 
-
           <el-form-item label="变量" style="margin-top: 20px">
             <el-input v-model="VarInfo.Key" />
           </el-form-item>
@@ -165,7 +164,7 @@ import { nextTick, ref, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-const queryappid=parseInt(router.currentRoute.value.query.APPID)
+const queryappid = parseInt(router.currentRoute.value.query.APPID)
 
 const path = ref(import.meta.env.VITE_BASE_API)
 // 初始化相关
@@ -197,6 +196,8 @@ const tableData = ref([])
 const listSelect = ref([])
 
 const GetName = (val) => {
+
+
   for (let i = 0; i < app_list.value.data.list.length; i++) {
     if (app_list.value.data.list[i].ID === val) {
       return app_list.value.data.list[i].Name
@@ -237,7 +238,7 @@ const delVar = async() => {
 
 // 查询
 const getTableData = async() => {
-  const table = await GetVarList({ page: page.value, pageSize: pageSize.value , APP_ID: queryappid })
+  const table = await GetVarList({ page: page.value, pageSize: pageSize.value, APP_ID: queryappid })
   // const App_list = await getAppList()
   app_list.value = App_list
   if (table.code === 0) {
@@ -254,7 +255,7 @@ watch(tableData, () => {
 
 const initPage = async() => {
   getTableData()
- // const res = await getAuthorityList({ page: 1, pageSize: 999 })
+  // const res = await getAuthorityList({ page: 1, pageSize: 999 })
   // setOptions(res.data.list)`
 }
 

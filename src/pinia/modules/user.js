@@ -60,6 +60,7 @@ export const useUserStore = defineStore('user', () => {
       loginInfo.captchaId = loginInfo.captchaId.toString()
       const res = await login(loginInfo)
       if (res.code === 0) {
+
         setUserInfo(res.data.user)
         setToken(res.data.token)
         const routerStore = useRouterStore()

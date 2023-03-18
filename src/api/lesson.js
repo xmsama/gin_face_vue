@@ -28,6 +28,22 @@ export const GetLessonList = (data) => {
   })
 }
 
+export const SetLessonInfo = (data) => {
+  return service({
+    url: '/SetLessonInfo',
+    method: 'post',
+    data: data
+  })
+}
+export const DelLesson = (data) => {
+  return service({
+    url: '/DelLesson',
+    method: 'post',
+    data: data
+  })
+}
+
+
 
 
 
@@ -53,3 +69,12 @@ export const DelClassRoom = (data) => {
     data: data
   })
 }
+export const GetSignHistory = (data) => {
+  return service({
+    url: '/GetSignHistory',
+    method: 'post',
+    data: data
+  })
+}
+
+

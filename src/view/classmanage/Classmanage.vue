@@ -214,7 +214,7 @@ const RouteCloud = (obj) => {
   router.push({ name: 'cloud', query: { 'APPID': obj.ID }})
 }
 const RouteUser = (obj) => {
-  router.push({ name: 'usermanage', query: { 'APPID': obj.ID }})
+  router.push({ name: 'userlist', query: { 'APPID': obj.ID }})
 }
 
 // 弹窗相关
@@ -256,6 +256,7 @@ const enterAddUserDialog = async() => {
       }
     }
   })
+
 }
 
 const Delete = async(obj) => {

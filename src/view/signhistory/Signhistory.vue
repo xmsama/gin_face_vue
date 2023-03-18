@@ -35,76 +35,73 @@
       >
         <el-table-column type="selection" />
         <el-table-column v-if="false" align="left" label="ID" min-width="100" prop="ID" />
-        <el-table-column align="left" label="姓名" min-width="100" prop="Name" />
-
-        <el-table-column align="left" label="所属班级" min-width="150" prop="Class" />
-        <el-table-column align="left" label="人脸图片" min-width="70" prop="Count" >
+        <el-table-column align="left" label="课程名称" min-width="150" prop="LessonId">
           <template #default="scope">
-            <img src="@/assets/bona.jpg" style="width: 50px; height: 50px" class="link-icon">
-<!--            <el-image style="width: 100px; height: 100px" src="require('@/assets/video.png')" fit="fill" />-->
-<!--            <el-img width="100px" height="100px" fit="fill" src="@/assets/dashboard.png"/>-->
-
-          </template>
-
-        </el-table-column>
-<!--        <el-table-column align="left" label="状态" min-width="80" prop="Status" />-->
-<!---->
-        <el-table-column prop="Status" label="状态" align="center" min-width="100">
-          <template #default="scope">
-              <el-tag
-                  :type="scope.row.Status=='正常'?'success':'danger'"
-              >
-                {{ scope.row.Status }}
-              </el-tag>
-
+            <span>{{ GetLessonName(scope.row.LessonId) }}</span>
           </template>
         </el-table-column>
+        <el-table-column align="left" label="课室名称" min-width="80" prop="ClassRoomId">
+          <template #default="scope">
+            <span>{{ GetClassRoomName(scope.row.ClassRoomId) }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="left" label="班级名称" min-width="150" prop="ClassId" >
+          <template #default="scope">
+            <span>{{ GetClassName(scope.row.ClassId) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="生成时间" min-width="150" prop="Time" />
+
+        <!--        <el-table-column align="left" label="所属班级" min-width="150" prop="Class" />-->
+        <!--        <el-table-column align="left" label="人脸图片" min-width="70" prop="Count" >-->
+        <!--          <template #default="scope">-->
+        <!--            <img src="@/assets/bona.jpg" style="width: 50px; height: 50px" class="link-icon">-->
+        <!--&lt;!&ndash;            <el-image style="width: 100px; height: 100px" src="require('@/assets/video.png')" fit="fill" />&ndash;&gt;-->
+        <!--&lt;!&ndash;            <el-img width="100px" height="100px" fit="fill" src="@/assets/dashboard.png"/>&ndash;&gt;-->
+
+        <!--          </template>-->
+
+        <!--        </el-table-column>-->
+        <!--        <el-table-column align="left" label="状态" min-width="80" prop="Status" />-->
+        <!---->
+        <!--        <el-table-column prop="Status" label="状态" align="center" min-width="100">-->
+        <!--          <template #default="scope">-->
+        <!--              <el-tag-->
+        <!--                  :type="scope.row.Status=='正常'?'success':'danger'"-->
+        <!--              >-->
+        <!--                {{ scope.row.Status }}-->
+        <!--              </el-tag>-->
+
+        <!--          </template>-->
+        <!--        </el-table-column>-->
 
         <el-table-column label="操作" min-width="250">
 
           <template #default="scope">
 
-
-            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看照片</el-button>
-<!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
-<!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
-            <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">编辑</el-button>
+            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看详情</el-button>
+            <!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
+            <!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
+            <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">删除</el-button>
           &nbsp;
-<!--            <el-dropdown>-->
+            <!--            <el-dropdown>-->
 
-<!--              <el-button style="margin-top:5px" type="text" icon="delete" size="small">删除</el-button>-->
+            <!--              <el-button style="margin-top:5px" type="text" icon="delete" size="small">删除</el-button>-->
 
-<!--              <template #dropdown>-->
-<!--                <el-dropdown-menu class="dropdown-group">-->
-<!--                  <el-dropdown-item>个人信息</el-dropdown-item>-->
-<!--                  <el-dropdown-item>登 出</el-dropdown-item>-->
-<!--                </el-dropdown-menu>-->
-<!--              </template>-->
-<!--            </el-dropdown>-->
+            <!--              <template #dropdown>-->
+            <!--                <el-dropdown-menu class="dropdown-group">-->
+            <!--                  <el-dropdown-item>个人信息</el-dropdown-item>-->
+            <!--                  <el-dropdown-item>登 出</el-dropdown-item>-->
+            <!--                </el-dropdown-menu>-->
+            <!--              </template>-->
+            <!--            </el-dropdown>-->
           </template>
 
         </el-table-column>
 
       </el-table>
-      <el-drawer
-        v-model="onlinetable"
-        :title="OnlineCount"
-        direction="rtl"
 
-        :close-on-press-escape="true"
-        size="50%"
-      >
-        <el-table
-          :data="OnlineData"
-        >
-          <el-table-column align="left" label="卡名称" min-width="150" prop="Name" />
-          <el-table-column align="left" label="在线人数" min-width="150" prop="Count" />
-          <el-table-column align="left" label="3日内到期数" min-width="150" prop="TDay" />
-          <el-table-column align="left" label="7日内到期数(不含3)" min-width="150" prop="SDay" />
-          <el-table-column align="left" label="已到期数量" min-width="150" prop="Exp" />
-          <el-table-column align="left" label="未激活卡数量" min-width="150" prop="NoActivate" />
-        </el-table>
-      </el-drawer>
       <div class="gva-pagination">
         <el-pagination
           :current-page="page"
@@ -135,48 +132,48 @@
               </el-form-item>
               <el-form-item label="是否启用">
                 <el-switch
-                    v-model="AppInfo.CanUnbind"
-                    :active-value="1"
-                    :inactive-value="0"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
+                  v-model="AppInfo.CanUnbind"
+                  :active-value="1"
+                  :inactive-value="0"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949"
                 />
               </el-form-item>
             </el-form>
           </el-tab-pane>
-<!--          <el-tab-pane label="额外设置" name="fourth">-->
-<!--            <el-form ref="userForm" label-position="right" :rules="rules" :model="AppInfo" label-width="150px">-->
-<!--              <el-form-item label="是否启用">-->
-<!--                <el-switch-->
-<!--                  v-model="AppInfo.CanUnbind"-->
-<!--                  :active-value="1"-->
-<!--                  :inactive-value="0"-->
-<!--                  active-color="#13ce66"-->
-<!--                  inactive-color="#ff4949"-->
-<!--                />-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="是否可以登录">-->
-<!--                <el-switch-->
-<!--                  v-model="AppInfo.CanLogin"-->
-<!--                  :active-value="1"-->
-<!--                  :inactive-value="0"-->
-<!--                  active-color="#13ce66"-->
-<!--                  inactive-color="#ff4949"-->
-<!--                />-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="修改通讯封号">-->
-<!--                <el-switch-->
-<!--                  v-model="AppInfo.CheatBan"-->
-<!--                  :active-value="1"-->
-<!--                  :inactive-value="0"-->
-<!--                  active-color="#13ce66"-->
-<!--                  inactive-color="#ff4949"-->
-<!--                />-->
+          <!--          <el-tab-pane label="额外设置" name="fourth">-->
+          <!--            <el-form ref="userForm" label-position="right" :rules="rules" :model="AppInfo" label-width="150px">-->
+          <!--              <el-form-item label="是否启用">-->
+          <!--                <el-switch-->
+          <!--                  v-model="AppInfo.CanUnbind"-->
+          <!--                  :active-value="1"-->
+          <!--                  :inactive-value="0"-->
+          <!--                  active-color="#13ce66"-->
+          <!--                  inactive-color="#ff4949"-->
+          <!--                />-->
+          <!--              </el-form-item>-->
+          <!--              <el-form-item label="是否可以登录">-->
+          <!--                <el-switch-->
+          <!--                  v-model="AppInfo.CanLogin"-->
+          <!--                  :active-value="1"-->
+          <!--                  :inactive-value="0"-->
+          <!--                  active-color="#13ce66"-->
+          <!--                  inactive-color="#ff4949"-->
+          <!--                />-->
+          <!--              </el-form-item>-->
+          <!--              <el-form-item label="修改通讯封号">-->
+          <!--                <el-switch-->
+          <!--                  v-model="AppInfo.CheatBan"-->
+          <!--                  :active-value="1"-->
+          <!--                  :inactive-value="0"-->
+          <!--                  active-color="#13ce66"-->
+          <!--                  inactive-color="#ff4949"-->
+          <!--                />-->
 
-<!--              </el-form-item>-->
-<!--              <warning-bar title="修改通信封号为测试功能 可能不稳定" />-->
-<!--            </el-form>-->
-<!--          </el-tab-pane>-->
+          <!--              </el-form-item>-->
+          <!--              <warning-bar title="修改通信封号为测试功能 可能不稳定" />-->
+          <!--            </el-form>-->
+          <!--          </el-tab-pane>-->
 
         </el-tabs>
       </div>
@@ -189,9 +186,6 @@
       </template>
     </el-dialog>
 
-
-
-    <ChooseImg ref="chooseImg" :target="AppInfo" :target-key="`headerImg`" />
   </div>
 </template>
 
@@ -236,6 +230,7 @@ export default {
 <script setup>
 
 import {
+  GetClassList,
   GetUserList,
 } from '@/api/class'
 
@@ -249,6 +244,10 @@ const total = ref(0)
 const page = ref(1)
 const pageSize = ref(10)
 const tableData = ref([])
+const ClassList = ref([])
+const ClassRoomList = ref([])
+const LessonList = ref([])
+
 // 分页
 const handleSizeChange = (val) => {
   pageSize.value = val
@@ -260,10 +259,41 @@ const handleCurrentChange = (val) => {
   getTableData()
 }
 
+const GetLessonName = (ID) => {
+  for (var i = 0; i < LessonList.value.length; i++) {
+    if (LessonList.value[i]['ID'] === ID) {
+      return LessonList.value[i]['Name']
+    }
+  }
+}
+
+const GetClassName = (ID) => {
+  for (var i = 0; i < ClassList.value.length; i++) {
+    if (ClassList.value[i]['ID'] === ID) {
+      return ClassList.value[i]['Name']
+    }
+  }
+}
+
+const GetClassRoomName = (ID) => {
+  for (var i = 0; i < ClassRoomList.value.length; i++) {
+    if (parseInt(ClassRoomList.value[i]['ID']) === ID) {
+      return ClassRoomList.value[i]['Name']
+    }
+  }
+}
+
 // 查询
 const getTableData = async() => {
-  const table = await GetUserList({ page: page.value, pageSize: pageSize.value })
+  const table = await GetSignHistory({ page: page.value, pageSize: pageSize.value })
+  const classlist = await GetClassList({ page: page.value, pageSize: 99 })
+  const classroom = await GetClassRoomList({ page: page.value, pageSize: 99 })
+  const lessonlist = await GetLessonList({ page: page.value, pageSize: 99 })
+
   if (table.code === 0) {
+    LessonList.value = lessonlist.data.list
+    ClassRoomList.value = classroom.data.list
+    ClassList.value = classlist.data.list
     tableData.value = table.data.list
     total.value = table.data.total
     page.value = table.data.page
@@ -281,6 +311,7 @@ initPage()
 
 import { useRouter } from 'vue-router'
 import { getCardTypeList } from '@/api/Card'
+import { GetClassRoomList, GetLessonList, GetLessonTime, GetSignHistory } from '@/api/lesson'
 const router = useRouter()
 const RouteCardType = (obj) => {
   router.push({ name: 'cardtype', query: { 'APPID': obj.ID }})
@@ -294,8 +325,6 @@ const RouteCloud = (obj) => {
 const RouteUser = (obj) => {
   router.push({ name: 'usermanage', query: { 'APPID': obj.ID }})
 }
-
-
 
 // 加时弹窗相关
 

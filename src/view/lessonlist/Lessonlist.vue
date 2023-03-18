@@ -12,7 +12,7 @@
 
         </el-form-item>
         <el-form-item label="上课班级" prop="userName">
-            <el-input placeholder="输入搜索条件" />
+          <el-input placeholder="输入搜索条件" />
         </el-form-item>
         <el-form-item label="上课课室" prop="userName">
           <el-input placeholder="输入搜索条件" />
@@ -26,7 +26,7 @@
     <div class="gva-table-box">
       <div class="gva-btn-list">
         <el-button size="small" type="primary" icon="plus" @click="addUser">新增课程</el-button>
-<!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
+        <!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
       </div>
       <el-table
         :data="tableData"
@@ -35,57 +35,49 @@
         <el-table-column type="selection" />
         <el-table-column v-if="false" align="left" label="ID" min-width="100" prop="ID" />
         <el-table-column align="left" label="课程名称" min-width="120" prop="Name" />
-        <el-table-column align="left" label="所属班级" min-width="150" prop="Class" />
-        <el-table-column align="left" label="上课教室" min-width="80" prop="ClassRoom" />
-        <el-table-column align="left" label="上课时间" min-width="80" prop="LessonTime" />
-
+        <el-table-column align="left" label="所属班级" min-width="150" prop="ClassId">
+          <template #default="scope">
+            <span>{{ GetClassName(scope.row.ClassId) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="上课教室" min-width="80" prop="ClassRoomId">
+          <template #default="scope">
+            <span>{{ GetClassRoomName(scope.row.ClassRoomId) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="上课时间" min-width="80" prop="TimeId">
+          <template #default="scope">
+            <span>{{ GetTimeName(scope.row.TimeId) }}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column label="操作" min-width="250">
 
           <template #default="scope">
 
-
-<!--            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看照片</el-button>-->
-<!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
-<!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
+            <!--            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看照片</el-button>-->
+            <!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
+            <!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
             <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">编辑</el-button>
-            <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">删除</el-button>
+            <el-button type="text" icon="edit" size="small" @click="Delete(scope.row)">删除</el-button>
           &nbsp;
-<!--            <el-dropdown>-->
+            <!--            <el-dropdown>-->
 
-<!--              <el-button style="margin-top:5px" type="text" icon="delete" size="small">删除</el-button>-->
+            <!--              <el-button style="margin-top:5px" type="text" icon="delete" size="small">删除</el-button>-->
 
-<!--              <template #dropdown>-->
-<!--                <el-dropdown-menu class="dropdown-group">-->
-<!--                  <el-dropdown-item>个人信息</el-dropdown-item>-->
-<!--                  <el-dropdown-item>登 出</el-dropdown-item>-->
-<!--                </el-dropdown-menu>-->
-<!--              </template>-->
-<!--            </el-dropdown>-->
+            <!--              <template #dropdown>-->
+            <!--                <el-dropdown-menu class="dropdown-group">-->
+            <!--                  <el-dropdown-item>个人信息</el-dropdown-item>-->
+            <!--                  <el-dropdown-item>登 出</el-dropdown-item>-->
+            <!--                </el-dropdown-menu>-->
+            <!--              </template>-->
+            <!--            </el-dropdown>-->
           </template>
 
         </el-table-column>
 
       </el-table>
-      <el-drawer
-        v-model="onlinetable"
-        :title="OnlineCount"
-        direction="rtl"
 
-        :close-on-press-escape="true"
-        size="50%"
-      >
-        <el-table
-          :data="OnlineData"
-        >
-          <el-table-column align="left" label="卡名称" min-width="150" prop="Name" />
-          <el-table-column align="left" label="在线人数" min-width="150" prop="Count" />
-          <el-table-column align="left" label="3日内到期数" min-width="150" prop="TDay" />
-          <el-table-column align="left" label="7日内到期数(不含3)" min-width="150" prop="SDay" />
-          <el-table-column align="left" label="已到期数量" min-width="150" prop="Exp" />
-          <el-table-column align="left" label="未激活卡数量" min-width="150" prop="NoActivate" />
-        </el-table>
-      </el-drawer>
       <div class="gva-pagination">
         <el-pagination
           :current-page="page"
@@ -101,63 +93,84 @@
     <el-dialog
       v-model="addUserDialog"
       custom-class="user-dialog"
-      :title="'【'+AppInfo.Name+'】管理'"
+      :title="'【'+LessonInfo.Name+'】课程管理'"
       :show-close="false"
       :close-on-press-escape="false"
       :close-on-click-modal="false"
     >
-      <div style="height:16vh;overflow:auto;padding:0 12px;">
+      <div style="height:30vh;overflow:auto;padding:0 12px;">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="基础信息" name="first">
-            <el-form ref="userForm" :rules="rules" :model="AppInfo" label-width="120px">
+            <el-form ref="userForm" :rules="rules" :model="LessonInfo" label-width="120px">
 
-              <el-form-item label="班级名称" prop="Name">
-                <el-input v-model="AppInfo.Name" />
+              <el-form-item label="课程名称" prop="Name">
+                <el-input v-model="LessonInfo.Name" />
               </el-form-item>
-              <el-form-item label="是否启用">
-                <el-switch
-                    v-model="AppInfo.CanUnbind"
-                    :active-value="1"
-                    :inactive-value="0"
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
-                />
+              <el-form-item label="所属班级">
+                <el-select v-model="LessonInfo.ClassId" placeholder="请选择">
+                  <el-option
+                    v-for="item in ClassList"
+                    :key="item.ID"
+                    :label="item.Name"
+                    :value="item.ID"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="所属教室">
+                <el-select v-model="LessonInfo.ClassRoomId" placeholder="请选择">
+                  <el-option
+                    v-for="item in ClassRoomList"
+                    :key="item.ID"
+                    :label="item.Name"
+                    :value="item.ID"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="所属时间">
+                <el-select v-model="LessonInfo.TimeId" placeholder="请选择">
+                  <el-option
+                    v-for="item in TimeList"
+                    :key="item.ID"
+                    :label="item.Name"
+                    :value="item.ID"
+                  />
+                </el-select>
               </el-form-item>
             </el-form>
           </el-tab-pane>
-<!--          <el-tab-pane label="额外设置" name="fourth">-->
-<!--            <el-form ref="userForm" label-position="right" :rules="rules" :model="AppInfo" label-width="150px">-->
-<!--              <el-form-item label="是否启用">-->
-<!--                <el-switch-->
-<!--                  v-model="AppInfo.CanUnbind"-->
-<!--                  :active-value="1"-->
-<!--                  :inactive-value="0"-->
-<!--                  active-color="#13ce66"-->
-<!--                  inactive-color="#ff4949"-->
-<!--                />-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="是否可以登录">-->
-<!--                <el-switch-->
-<!--                  v-model="AppInfo.CanLogin"-->
-<!--                  :active-value="1"-->
-<!--                  :inactive-value="0"-->
-<!--                  active-color="#13ce66"-->
-<!--                  inactive-color="#ff4949"-->
-<!--                />-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="修改通讯封号">-->
-<!--                <el-switch-->
-<!--                  v-model="AppInfo.CheatBan"-->
-<!--                  :active-value="1"-->
-<!--                  :inactive-value="0"-->
-<!--                  active-color="#13ce66"-->
-<!--                  inactive-color="#ff4949"-->
-<!--                />-->
+          <!--          <el-tab-pane label="额外设置" name="fourth">-->
+          <!--            <el-form ref="userForm" label-position="right" :rules="rules" :model="AppInfo" label-width="150px">-->
+          <!--              <el-form-item label="是否启用">-->
+          <!--                <el-switch-->
+          <!--                  v-model="AppInfo.CanUnbind"-->
+          <!--                  :active-value="1"-->
+          <!--                  :inactive-value="0"-->
+          <!--                  active-color="#13ce66"-->
+          <!--                  inactive-color="#ff4949"-->
+          <!--                />-->
+          <!--              </el-form-item>-->
+          <!--              <el-form-item label="是否可以登录">-->
+          <!--                <el-switch-->
+          <!--                  v-model="AppInfo.CanLogin"-->
+          <!--                  :active-value="1"-->
+          <!--                  :inactive-value="0"-->
+          <!--                  active-color="#13ce66"-->
+          <!--                  inactive-color="#ff4949"-->
+          <!--                />-->
+          <!--              </el-form-item>-->
+          <!--              <el-form-item label="修改通讯封号">-->
+          <!--                <el-switch-->
+          <!--                  v-model="AppInfo.CheatBan"-->
+          <!--                  :active-value="1"-->
+          <!--                  :inactive-value="0"-->
+          <!--                  active-color="#13ce66"-->
+          <!--                  inactive-color="#ff4949"-->
+          <!--                />-->
 
-<!--              </el-form-item>-->
-<!--              <warning-bar title="修改通信封号为测试功能 可能不稳定" />-->
-<!--            </el-form>-->
-<!--          </el-tab-pane>-->
+          <!--              </el-form-item>-->
+          <!--              <warning-bar title="修改通信封号为测试功能 可能不稳定" />-->
+          <!--            </el-form>-->
+          <!--          </el-tab-pane>-->
 
         </el-tabs>
       </div>
@@ -170,9 +183,6 @@
       </template>
     </el-dialog>
 
-
-
-    <ChooseImg ref="chooseImg" :target="AppInfo" :target-key="`headerImg`" />
   </div>
 </template>
 
@@ -217,6 +227,8 @@ export default {
 <script setup>
 
 import {
+  DelClass,
+  GetClassList,
   GetUserList,
 } from '@/api/class'
 
@@ -224,11 +236,15 @@ import ChooseImg from '@/components/chooseImg/index.vue'
 import warningBar from '@/components/warningBar/warningBar.vue'
 
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { formatTimeToStr } from '@/utils/date.js'
 const total = ref(0)
 const page = ref(1)
 const pageSize = ref(10)
+const ClassList = ref([])
+const ClassRoomList = ref([])
+const TimeList = ref([])
+
 const tableData = ref([])
 // 分页
 const handleSizeChange = (val) => {
@@ -244,7 +260,13 @@ const handleCurrentChange = (val) => {
 // 查询
 const getTableData = async() => {
   const table = await GetLessonList({ page: page.value, pageSize: pageSize.value })
+  const classlist = await GetClassList({ page: page.value, pageSize: 99 })
+  const classroom = await GetClassRoomList({ page: page.value, pageSize: 99 })
+  const timelist = await GetLessonTime({ page: page.value, pageSize: 99 })
   if (table.code === 0) {
+    TimeList.value = timelist.data.list
+    ClassRoomList.value = classroom.data.list
+    ClassList.value = classlist.data.list
     tableData.value = table.data.list
     total.value = table.data.total
     page.value = table.data.page
@@ -262,84 +284,88 @@ initPage()
 
 import { useRouter } from 'vue-router'
 import { getCardTypeList } from '@/api/Card'
-import { GetLessonList } from '@/api/lesson'
+import { DelLesson, GetClassRoomList, GetLessonList, GetLessonTime, SetLessonInfo } from '@/api/lesson'
 const router = useRouter()
-const RouteCardType = (obj) => {
-  router.push({ name: 'cardtype', query: { 'APPID': obj.ID }})
-}
-const RouteCardList = (obj) => {
-  router.push({ name: 'cardlist', query: { 'APPID': obj.ID }})
-}
-const RouteCloud = (obj) => {
-  router.push({ name: 'cloud', query: { 'APPID': obj.ID }})
-}
-const RouteUser = (obj) => {
-  router.push({ name: 'usermanage', query: { 'APPID': obj.ID }})
+
+const Delete = async(obj) => {
+  ElMessageBox.confirm(
+    '是否删除当前课程？',
+    'Warning',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    },
+  )
+    .then(async() => {
+      // 后端业务处理
+      const resp = await DelLesson({ ID: obj.ID })
+      if (resp.code === 0) {
+        ElMessage({
+          type: 'success',
+          message: '删除成功',
+        })
+      }
+      getTableData()
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消刪除',
+      })
+    })
 }
 
+const GetClassName = (ID) => {
+  for (var i = 0; i < ClassList.value.length; i++) {
+    if (ClassList.value[i]['ID'] === ID) {
+      return ClassList.value[i]['Name']
+    }
+  }
+}
 
-
-// 加时弹窗相关
-
-const AddTimeInfo = ref({
-  Name: '',
-  CardType: 0, // 卡类id
-  AddType: 0, // 加时模式
-  Time: 0,
-})
+const GetClassRoomName = (ID) => {
+  for (var i = 0; i < ClassRoomList.value.length; i++) {
+    if (parseInt(ClassRoomList.value[i]['ID']) === ID) {
+      return ClassRoomList.value[i]['Name']
+    }
+  }
+}
+const GetTimeName = (ID) => {
+  // console.log(ClassList)
+  for (var i = 0; i < TimeList.value.length; i++) {
+    if (parseInt(TimeList.value[i]['ID']) === ID) {
+      return TimeList.value[i]['Name']
+    }
+  }
+}
 
 // 弹窗相关
-const AppInfo = ref({
+const LessonInfo = ref({
   Name: '',
-  Version: 0.1,
-  App_Mode: '0',
-  Update_Address: '',
-  Notice: '',
-  Unbind_Del: 0,
-  Free_Unbind: 0,
-  Rsa_Private: '',
-  Rsa_Public: '',
-  Secret: '',
-  VmKey: '',
-  ForcedUpdate: 0,
-  BindHwid: 1,
-  CanUnbind: 0,
-  CanRegister: 1,
-  CanLogin: 1,
-  CheatBan: 0
+  ClassId: '',
+  ClassRoomId: '',
+  TimeId: ''
 })
 
 const rules = ref({
   Name: [
-    { required: true, message: '请输入班级名称', trigger: 'blur' },
+    { required: true, message: '请输入课程名称', trigger: 'blur' },
     { min: 1, message: '最低1位字符', trigger: 'blur' },
   ]
 })
 const userForm = ref(null)
-
-const enterAddTimeDialog = async() => {
-  const req = {
-    ...AddTimeInfo.value,
-  }
-  const res = await AddTime(req)
-  console.log(AddTimeInfo.value)
-  if (res.code === 0) {
-    ElMessage({ type: 'success', message: '加时成功' })
-    await getTableData()
-    closeAddTimeDialog()
-  }
-}
 
 const enterAddUserDialog = async() => {
   // AppInfo.value.authorityId = App.value.authorityIds[0]
   userForm.value.validate(async valid => {
     if (valid) {
       const req = {
-        ...AppInfo.value,
+        ...LessonInfo.value,
       }
-      console.log(AppInfo.value)
+
       if (dialogFlag.value === 'add') {
-        const res = await SetClassInfo(req)
+        const res = await SetLessonInfo(req)
         if (res.code === 0) {
           ElMessage({ type: 'success', message: '创建成功' })
           await getTableData()
@@ -347,7 +373,7 @@ const enterAddUserDialog = async() => {
         }
       }
       if (dialogFlag.value === 'edit') {
-        const res = await SetClassInfo(req)
+        const res = await SetLessonInfo(req)
         if (res.code === 0) {
           ElMessage({ type: 'success', message: '编辑成功' })
           await getTableData()
@@ -358,39 +384,16 @@ const enterAddUserDialog = async() => {
   })
 }
 
-const AddTimeDialog = ref(false)
 const addUserDialog = ref(false)
-const closeAddTimeDialog = () => {
-  userForm.value.resetFields()
-  AddTimeDialog.value = false
-
-  AddTimeInfo.value = {
-    Name: '',
-    CardType: 0,
-    AddType: 0,
-    Time: 0,
-  }
-}
 
 const closeAddUserDialog = () => {
   userForm.value.resetFields()
   addUserDialog.value = false
-  AppInfo.value = {
+  LessonInfo.value = {
     Name: '',
-    Version: 0.1,
-    App_Mode: '0',
-    Update_Address: '',
-    Notice: '',
-    Unbind_Del: 0,
-    Free_Unbind: 0,
-    Rsa_Private: '',
-    Rsa_Public: '',
-    Secret: '',
-    ForcedUpdate: 0,
-    BindHwid: 1,
-    CanUnbind: 1,
-    CanRegister: 1,
-    CanLogin: 1
+    ClassId: '',
+    ClassRoomId: '',
+    TimeId: ''
   }
 }
 
@@ -403,7 +406,8 @@ const addUser = () => {
 
 const openEdit = (row) => {
   dialogFlag.value = 'edit'
-  AppInfo.value = JSON.parse(JSON.stringify(row))
+  LessonInfo.value = JSON.parse(JSON.stringify(row))
+  console.log(LessonInfo.value)
   addUserDialog.value = true
 }
 

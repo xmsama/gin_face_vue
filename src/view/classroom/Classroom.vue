@@ -27,7 +27,7 @@
     <div class="gva-table-box">
       <div class="gva-btn-list">
         <el-button size="small" type="primary" icon="plus" @click="addUser">新增教室</el-button>
-<!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
+        <!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
       </div>
       <el-table
         :data="tableData"
@@ -35,25 +35,27 @@
       >
         <el-table-column type="selection" />
         <el-table-column v-if="false" align="left" label="ID" min-width="100" prop="ID" />
+        <el-table-column align="left" label="教室ID" min-width="100" prop="ID" />
         <el-table-column align="left" label="教室名称" min-width="200" prop="Name" />
         <el-table-column align="left" label="签到时间" min-width="150" prop="SignTime">
-          <template #default="scope">
+          <el-table-column align="left" label="可提前签到时间" min-width="150" prop="TqSignTime">
+            <template #default="scope">
 
-            {{ formatTime(scope.row.SignTime) }}
-          </template>
-        </el-table-column>
-        <!--        <el-table-column align="left" label="状态" min-width="80" prop="Status" />-->
-        <!---->
+              {{ formatTime(scope.row.SignTime) }}
+            </template>
+          </el-table-column>
+          <!--        <el-table-column align="left" label="状态" min-width="80" prop="Status" />-->
+          <!---->
 
-        <el-table-column label="操作" min-width="250">
+          <el-table-column label="操作" min-width="250">
 
-          <template #default="scope">
+            <template #default="scope">
 
-            <!--            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看照片</el-button>-->
-            <!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
-            <!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
-            <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">编辑</el-button>
-            <el-button type="text" icon="edit" size="small" @click="Delete(scope.row)">删除</el-button>
+              <!--            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看照片</el-button>-->
+              <!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
+              <!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
+              <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">编辑</el-button>
+              <el-button type="text" icon="edit" size="small" @click="Delete(scope.row)">删除</el-button>
           &nbsp;
             <!--            <el-dropdown>-->
 
@@ -66,30 +68,12 @@
             <!--                </el-dropdown-menu>-->
             <!--              </template>-->
             <!--            </el-dropdown>-->
-          </template>
+            </template>
 
-        </el-table-column>
+          </el-table-column>
 
-      </el-table>
-      <el-drawer
-        v-model="onlinetable"
-        :title="OnlineCount"
-        direction="rtl"
+        </el-table-column></el-table>
 
-        :close-on-press-escape="true"
-        size="50%"
-      >
-        <el-table
-          :data="OnlineData"
-        >
-          <el-table-column align="left" label="卡名称" min-width="150" prop="Name" />
-          <el-table-column align="left" label="在线人数" min-width="150" prop="Count" />
-          <el-table-column align="left" label="3日内到期数" min-width="150" prop="TDay" />
-          <el-table-column align="left" label="7日内到期数(不含3)" min-width="150" prop="SDay" />
-          <el-table-column align="left" label="已到期数量" min-width="150" prop="Exp" />
-          <el-table-column align="left" label="未激活卡数量" min-width="150" prop="NoActivate" />
-        </el-table>
-      </el-drawer>
       <div class="gva-pagination">
         <el-pagination
           :current-page="page"
@@ -120,6 +104,9 @@
               </el-form-item>
               <el-form-item label="签到时间(秒)" prop="SignTime">
                 <el-input v-model="ClassRoom.SignTime" />
+              </el-form-item>
+              <el-form-item label="提前签到时间(秒)" prop="SignTime">
+                <el-input v-model="ClassRoom.TqSignTime" />
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -239,6 +226,7 @@ const Delete = async(obj) => {
 // 弹窗相关
 const ClassRoom = ref({
   Name: '',
+  TqSignTime: '120',
   SignTime: '300'
 })
 
@@ -284,13 +272,13 @@ const enterAddUserDialog = async() => {
   })
 }
 
-const AddTimeDialog = ref(false)
 const addUserDialog = ref(false)
 const closeAddUserDialog = () => {
   userForm.value.resetFields()
   addUserDialog.value = false
   ClassRoom.value = {
     Name: '',
+    TqSignTime: '120',
     SignTime: '300'
   }
 }

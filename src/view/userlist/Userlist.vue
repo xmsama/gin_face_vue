@@ -7,14 +7,23 @@
     <div class="gva-search-box">
       <!-- 初始版本自动化代码工具 -->
       <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
-        <el-form-item label="名称" prop="tableName">
+        <el-form-item label="学生名称" prop="tableName">
           <el-input placeholder="输入搜索条件" />
-
+        </el-form-item>
+        <el-form-item label="班级名称" prop="tableName">
+          <el-select v-model="SearchList.ClassId" placeholder="请选择">
+            <el-option
+              v-for="item in ClassList"
+              :key="item.ID"
+              :label="item.Name"
+              :value="item.ID"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="状态" prop="userName">
           <el-select v-model="value" placeholder="请选择">
-            <el-option key="1" value="正常">正常</el-option>
-            <el-option key="0" value="停止">停止</el-option>
+            <el-option key="1" value="正常">已生成人脸数据</el-option>
+            <el-option key="0" value="停止">未生成人脸数据</el-option>
           </el-select>
         </el-form-item>
 
@@ -38,21 +47,24 @@
         <el-table-column align="left" label="姓名" min-width="100" prop="Name" />
 
         <el-table-column align="left" label="所属班级" min-width="150" prop="Class" />
+
         <el-table-column align="left" label="人脸图片" min-width="70" prop="Image">
           <template #default="scope">
-            <img :src="scope.row.Image" style="width: 50px; height: 50px" class="link-icon">
+            <img :src="scope.row.Image" style="width: 65px; height: 75px" class="link-icon">
             <!--            <el-image style="width: 100px; height: 100px" src="require('@/assets/video.png')" fit="fill" />-->
             <!--            <el-img width="100px" height="100px" fit="fill" src="@/assets/dashboard.png"/>-->
 
           </template>
 
+
         </el-table-column>
+        <el-table-column align="left" label="更新时间" min-width="80" prop="Time" />
         <!--        <el-table-column align="left" label="状态" min-width="80" prop="Status" />-->
         <!---->
         <el-table-column prop="Status" label="状态" align="center" min-width="100">
           <template #default="scope">
             <el-tag
-              :type="scope.row.Status=='正常'?'success':'danger'"
+              :type="scope.row.Status=='已生成人脸数据'?'success':'danger'"
             >
               {{ scope.row.Status }}
             </el-tag>
@@ -64,11 +76,11 @@
 
           <template #default="scope">
 
-            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看照片</el-button>
+            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">手动更新人脸数据</el-button>
             <!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
             <!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
             <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">编辑</el-button>
-            <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">删除</el-button>
+            <el-button type="text" icon="edit" size="small" @click="Delete(scope.row)">删除</el-button>
           &nbsp;
             <!--            <el-dropdown>-->
 
@@ -86,25 +98,7 @@
         </el-table-column>
 
       </el-table>
-      <el-drawer
-        v-model="onlinetable"
-        :title="OnlineCount"
-        direction="rtl"
 
-        :close-on-press-escape="true"
-        size="50%"
-      >
-        <el-table
-          :data="OnlineData"
-        >
-          <el-table-column align="left" label="卡名称" min-width="150" prop="Name" />
-          <el-table-column align="left" label="在线人数" min-width="150" prop="Count" />
-          <el-table-column align="left" label="3日内到期数" min-width="150" prop="TDay" />
-          <el-table-column align="left" label="7日内到期数(不含3)" min-width="150" prop="SDay" />
-          <el-table-column align="left" label="已到期数量" min-width="150" prop="Exp" />
-          <el-table-column align="left" label="未激活卡数量" min-width="150" prop="NoActivate" />
-        </el-table>
-      </el-drawer>
       <div class="gva-pagination">
         <el-pagination
           :current-page="page"
@@ -209,13 +203,13 @@ export default {
 import {
   GetUserList,
   GetClassList,
-  SetUserInfo
+  SetUserInfo, DelClass, DelUser,
 } from '@/api/class'
 
 import warningBar from '@/components/warningBar/warningBar.vue'
 
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { formatTimeToStr } from '@/utils/date.js'
 const total = ref(0)
 const page = ref(1)
@@ -229,6 +223,10 @@ const uploadData = ref({
   ClassId: ''
 })
 
+const SearchList = ref({
+  ClassId: ''
+})
+
 // 分页
 const handleSizeChange = (val) => {
   pageSize.value = val
@@ -238,6 +236,35 @@ const handleSizeChange = (val) => {
 const handleCurrentChange = (val) => {
   page.value = val
   getTableData()
+}
+
+const Delete = async(obj) => {
+  ElMessageBox.confirm(
+    '是否删除当前学生？',
+    'Warning',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    },
+  )
+    .then(async() => {
+      // 后端业务处理
+      const resp = await DelUser({ ID: obj.ID })
+      if (resp.code === 0) {
+        ElMessage({
+          type: 'success',
+          message: '删除成功',
+        })
+      }
+      getTableData()
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消刪除',
+      })
+    })
 }
 
 // 查询
@@ -360,6 +387,7 @@ const dialogFlag = ref('add')
 const addUser = () => {
   dialogFlag.value = 'add'
   addUserDialog.value = true
+  uploadRef.value.clearFiles()
 }
 
 const openEdit = (row) => {

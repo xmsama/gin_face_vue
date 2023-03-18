@@ -56,7 +56,11 @@ export const SetUserInfo = (data) => {
     data: data
   })
 }
-
-
-
+export const DelUser = (data) => {
+  return service({
+    url: '/DelUser',
+    method: 'post',
+    data: data
+  })
+}
 

@@ -58,6 +58,7 @@ import { emitter } from '@/utils/bus.js'
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/pinia/modules/user'
+import { GetClassList } from '@/api/class'
 
 const route = useRoute()
 const router = useRouter()
@@ -85,6 +86,8 @@ const isMobile = ref(false)
 const rightActive = ref('')
 const defaultRouter = computed(() => userStore.userInfo.authority.defaultRouter)
 const app_list = ref([])
+
+
 const showtitle = (item) => {
   // item.meta.title
 
@@ -229,7 +232,7 @@ const changeTab = (component) => {
     })
   }, 100)
 
-  console.log('wod')
+  // console.log('wod')
 }
 const removeTab = (tab) => {
   const index = historys.value.findIndex(
@@ -285,6 +288,9 @@ watch(() => historys.value, () => {
   deep: true
 })
 const GetName = (val) => {
+  if (app_list.value == undefined ) {
+    return ''
+  }
   for (let i = 0; i < app_list.value.length; i++) {
     if (app_list.value[i].ID == val) {
       return app_list.value[i].Name
@@ -292,6 +298,9 @@ const GetName = (val) => {
   }
 }
 const initPage = async() => {
+  const temp = await GetClassList({ page: 1, pageSize: 99 })
+  app_list.value = temp.data.list
+
   // app_list.value = await getAppList() // 获取软件列表
   // app_list.value = app_list.value.data.list
   // console.log("来一下",app_list.value)

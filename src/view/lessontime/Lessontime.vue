@@ -73,7 +73,7 @@
           <el-tab-pane label="基础信息" name="first">
             <el-form ref="userForm" :rules="rules" :model="LessonTimeInfo" label-width="200px">
 
-              <el-form-item label="课程名称" prop="Name">
+              <el-form-item label="课程时间名称(例:第一节课)" prop="Name">
                 <el-input v-model="LessonTimeInfo.Name" />
               </el-form-item>
               <el-form-item label="开始时间(例如20:00:00)" prop="Name">

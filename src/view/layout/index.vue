@@ -49,19 +49,19 @@
                           </div>
                           <template #dropdown>
                             <el-dropdown-menu class="dropdown-group">
-                              <el-dropdown-item>
-                                <span style="font-weight: 600;">
-                                  当前角色：{{ userStore.userInfo.authority.authorityName }}
-                                </span>
-                              </el-dropdown-item>
-                              <template v-if="userStore.userInfo.authorities">
-                                <el-dropdown-item v-for="item in userStore.userInfo.authorities.filter(i=>i.authorityId!==userStore.userInfo.authorityId)" :key="item.authorityId" @click="changeUserAuth(item.authorityId)">
-                                  <span>
-                                    切换为：{{ item.authorityName }}
-                                  </span>
-                                </el-dropdown-item>
-                              </template>
-                              <el-dropdown-item icon="avatar" @click="toPerson">个人信息</el-dropdown-item>
+<!--                              <el-dropdown-item>-->
+<!--                                <span style="font-weight: 600;">-->
+<!--                                  当前角色：{{ userStore.userInfo.authority.authorityName }}-->
+<!--                                </span>-->
+<!--                              </el-dropdown-item>-->
+<!--                              <template v-if="userStore.userInfo.authorities">-->
+<!--                                <el-dropdown-item v-for="item in userStore.userInfo.authorities.filter(i=>i.authorityId!==userStore.userInfo.authorityId)" :key="item.authorityId" @click="changeUserAuth(item.authorityId)">-->
+<!--                                  <span>-->
+<!--                                    切换为：{{ item.authorityName }}-->
+<!--                                  </span>-->
+<!--                                </el-dropdown-item>-->
+<!--                              </template>-->
+<!--                              <el-dropdown-item icon="avatar" @click="toPerson">个人信息</el-dropdown-item>-->
                               <el-dropdown-item icon="reading-lamp" @click="userStore.LoginOut">登 出</el-dropdown-item>
                             </el-dropdown-menu>
                           </template>
@@ -76,7 +76,7 @@
             <!--
             :to="{ path: item.path }" 暂时注释不用-->
             <HistoryComponent ref="layoutHistoryComponent" />
-            
+
           </div>
         </transition>
         <router-view v-if="reloadFlag" v-slot="{ Component }" v-loading="loadingFlag" element-loading-text="正在加载中" class="admin-box">

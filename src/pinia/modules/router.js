@@ -181,17 +181,17 @@ export const useRouterStore = defineStore('router', () => {
           },
           {
             'parentId': '0',
-            'path': 'accountinfo',
-            'name': 'accountinfo',
+            'path': 'signinfo',
+            'name': 'signinfo',
             'hidden': true,
-            'component': 'view/accountinfo/Accountinfo.vue',
+            'component': 'view/signinfo/Signinfo.vue',
             'sort': 0,
             'icon': 'user',
             'ID': 10,
             'menuId': 10,
             'meta': {
               'keepAlive': false,
-              'title': '帳號詳情',
+              'title': '签到详情',
               'icon': 'user',
               'closeTab': false
             },

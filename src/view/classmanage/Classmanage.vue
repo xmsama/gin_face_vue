@@ -8,11 +8,11 @@
       <!-- 初始版本自动化代码工具 -->
       <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
         <el-form-item label="班级名称" prop="tableName">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option key="1" value="正常">正常</el-option>
-            <el-option key="0" value="停止">停止</el-option>
-          </el-select>
-          <!--          <el-input placeholder="输入搜索条件" />-->
+<!--          <el-select v-model="value" placeholder="请选择">-->
+<!--            <el-option key="1" value="正常">正常</el-option>-->
+<!--            <el-option key="0" value="停止">停止</el-option>-->
+<!--          </el-select>-->
+                    <el-input placeholder="输入搜索条件" />
 
         </el-form-item>
 
@@ -25,7 +25,7 @@
     <div class="gva-table-box">
       <div class="gva-btn-list">
         <el-button size="small" type="primary" icon="plus" @click="addUser">新增班级</el-button>
-        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>
+<!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
       </div>
       <el-table
         :data="tableData"

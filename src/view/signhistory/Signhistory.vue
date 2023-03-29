@@ -2,7 +2,7 @@
 <template>
   <div>
 
-    <warning-bar title="注：这里学生管理" />
+    <warning-bar title="注：这里是签到记录" />
 
     <div class="gva-search-box">
       <!-- 初始版本自动化代码工具 -->
@@ -10,12 +10,6 @@
         <el-form-item label="名称" prop="tableName">
           <el-input placeholder="输入搜索条件" />
 
-        </el-form-item>
-        <el-form-item label="状态" prop="userName">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option key="1" value="正常">正常</el-option>
-            <el-option key="0" value="停止">停止</el-option>
-          </el-select>
         </el-form-item>
 
         <el-form-item>
@@ -25,16 +19,13 @@
       </el-form>
     </div>
     <div class="gva-table-box">
-      <div class="gva-btn-list">
-        <el-button size="small" type="primary" icon="plus" @click="addUser">新增学生</el-button>
-        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>
-      </div>
       <el-table
         :data="tableData"
         row-key="ID"
       >
         <el-table-column type="selection" />
         <el-table-column v-if="false" align="left" label="ID" min-width="100" prop="ID" />
+        <el-table-column align="left" label="ID" min-width="150" prop="ID"/>
         <el-table-column align="left" label="课程名称" min-width="150" prop="LessonId">
           <template #default="scope">
             <span>{{ GetLessonName(scope.row.LessonId) }}</span>
@@ -46,7 +37,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="left" label="班级名称" min-width="150" prop="ClassId" >
+        <el-table-column align="left" label="班级名称" min-width="150" prop="ClassId">
           <template #default="scope">
             <span>{{ GetClassName(scope.row.ClassId) }}</span>
           </template>
@@ -80,10 +71,10 @@
 
           <template #default="scope">
 
-            <el-button type="text" icon="user" size="small" @click="RouteUser(scope.row)">查看详情</el-button>
+            <el-button type="text" icon="user" size="small" @click="RouteInfo(scope.row)">查看详情</el-button>
             <!--            <el-button type="text" icon="key" size="small" @click="RouteCloud(scope.row)">云变量</el-button>-->
             <!--            <el-button type="text" icon="clock" size="small" @click="ToAddTime(scope.row)">批量加时</el-button>-->
-            <el-button type="text" icon="edit" size="small" @click="openEdit(scope.row)">删除</el-button>
+            <el-button type="text" icon="edit" size="small" @click="Delete(scope.row)">删除</el-button>
           &nbsp;
             <!--            <el-dropdown>-->
 
@@ -238,7 +229,7 @@ import ChooseImg from '@/components/chooseImg/index.vue'
 import warningBar from '@/components/warningBar/warningBar.vue'
 
 import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { formatTimeToStr } from '@/utils/date.js'
 const total = ref(0)
 const page = ref(1)
@@ -260,6 +251,7 @@ const handleCurrentChange = (val) => {
 }
 
 const GetLessonName = (ID) => {
+
   for (var i = 0; i < LessonList.value.length; i++) {
     if (LessonList.value[i]['ID'] === ID) {
       return LessonList.value[i]['Name']
@@ -283,12 +275,41 @@ const GetClassRoomName = (ID) => {
   }
 }
 
+const Delete = async(obj) => {
+  ElMessageBox.confirm(
+    '是否删除当前签到记录？',
+    'Warning',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    },
+  )
+    .then(async() => {
+      // 后端业务处理
+      const resp = await DelSignInfo({ ID: obj.ID })
+      if (resp.code === 0) {
+        ElMessage({
+          type: 'success',
+          message: '删除成功',
+        })
+      }
+      getTableData()
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消刪除',
+      })
+    })
+}
+
 // 查询
 const getTableData = async() => {
   const table = await GetSignHistory({ page: page.value, pageSize: pageSize.value })
-  const classlist = await GetClassList({ page: page.value, pageSize: 99 })
-  const classroom = await GetClassRoomList({ page: page.value, pageSize: 99 })
-  const lessonlist = await GetLessonList({ page: page.value, pageSize: 99 })
+  const classlist = await GetClassList({ page: 1, pageSize: 99 })
+  const classroom = await GetClassRoomList({ page: 1, pageSize: 99 })
+  const lessonlist = await GetLessonList({ page: 1, pageSize: 99 })
 
   if (table.code === 0) {
     LessonList.value = lessonlist.data.list
@@ -311,19 +332,11 @@ initPage()
 
 import { useRouter } from 'vue-router'
 import { getCardTypeList } from '@/api/Card'
-import { GetClassRoomList, GetLessonList, GetLessonTime, GetSignHistory } from '@/api/lesson'
+import { DelLesson, DelSignInfo, GetClassRoomList, GetLessonList, GetLessonTime, GetSignHistory } from '@/api/lesson'
 const router = useRouter()
-const RouteCardType = (obj) => {
-  router.push({ name: 'cardtype', query: { 'APPID': obj.ID }})
-}
-const RouteCardList = (obj) => {
-  router.push({ name: 'cardlist', query: { 'APPID': obj.ID }})
-}
-const RouteCloud = (obj) => {
-  router.push({ name: 'cloud', query: { 'APPID': obj.ID }})
-}
-const RouteUser = (obj) => {
-  router.push({ name: 'usermanage', query: { 'APPID': obj.ID }})
+
+const RouteInfo = (obj) => {
+  router.push({ name: 'signinfo', query: { 'ID': obj.ID }})
 }
 
 // 加时弹窗相关

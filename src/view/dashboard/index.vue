@@ -7,6 +7,7 @@
 <!--          <el-button @click=" change" />-->
           <div class="gva-top-card-left-dot">今日晴，-999℃ - 1000℃，天气寒冷，注意添加衣物。</div>
           <div class="gva-top-card-left-rows">
+<!--            <img src="http://" style="width: 65px; height: 75px" class="link-icon">-->
             <el-row>
               <el-col v-for="(data,key) in dataCards" :key="key" :sm="8" :span="8" :xs="24">
                 <div class="flex-center" style="font-size: 14px">
@@ -22,10 +23,10 @@
             <div class="gva-top-card-left-item">
               使用教学：
               <a
-                href="https://没有.com"
+                href="https://www.baidu.com"
                 style="color:#409EFF"
                 target="view_window"
-              >https://没有.com</a>
+              >https://www.baidu.com</a>
             </div>
           </div>
         </div>
@@ -126,11 +127,11 @@
                       <el-icon :style="iconStyle">
                         <monitor />
                       </el-icon>
-                      服務器名稱：
+                      服务器名称：
                     </div>
                   </template>
 
-                  ServerName
+                  VM-24-8-ubuntu
                 </el-descriptions-item>
 
                 <el-descriptions-item>
@@ -139,10 +140,10 @@
                       <el-icon :style="iconStyle">
                         <monitor />
                       </el-icon>
-                      通信接口狀態：
+                      通信接口状态：
                     </div>
                   </template>
-                  Good
+                  OK
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template #label>
@@ -153,7 +154,7 @@
                       操作系统版本:
                     </div>
                   </template>
-                  Ubuntu 1.1
+                  Ubuntu 20.04
                 </el-descriptions-item>
 
                 <el-descriptions-item>
@@ -190,6 +191,7 @@
                   </template>
                   <!--                  <span :style="{color: tableData[0]['Redis'] === '連接失敗 請檢查Redis是否啟動!' ? 'red' : 'green'}">-->
                   <!--                    {{ tableData[0]['Redis'] }}</span>-->
+                  总共：16G
 
                 </el-descriptions-item>
 
@@ -199,9 +201,10 @@
                       <el-icon :style="iconStyle">
                         <monitor />
                       </el-icon>
-                      系统运行时长：
+                      系统启动时间：
                     </div>
                   </template>
+                  2023-02-16 14:48
 
                   <!--                  Microsoft Windows 10 专业版（X64）-->
                 </el-descriptions-item>
@@ -271,7 +274,7 @@
                       昨日识别数量
                     </div>
                   </template>
-                  12345
+                  0
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template #label>
@@ -282,7 +285,7 @@
                       昨日识别失败数量：
                     </div>
                   </template>
-                  12345
+                  0
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template #label>
@@ -293,7 +296,7 @@
                       今日识别数量：
                     </div>
                   </template>
-                  12345
+                  0
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template #label>
@@ -304,7 +307,7 @@
                       今日识别失败数量：
                     </div>
                   </template>
-                  12345
+                  0
                 </el-descriptions-item>
               </el-descriptions>
 
@@ -434,24 +437,24 @@ const initPage = async() => {
 // initPage()
 const dataCards = ref([
   {
-    name: '班级管理',
+    name: '班级总数',
     text: '1',
-    icon: 'monitor',
+    icon: 'House',
   },
   {
-    name: '课程管理',
-    text: '122',
-    icon: 'key',
+    name: '课程总数',
+    text: '2',
+    icon: 'Collection',
   },
   {
-    name: '课室管理',
-    text: '122',
+    name: '课室总数',
+    text: '1',
+    icon: 'DataBoard',
+  },
+  {
+    name: '学生总数',
+    text: '2',
     icon: 'user',
-  },
-  {
-    name: '学生管理',
-    text: '122',
-    icon: 'cloudy',
   },
 
 ])

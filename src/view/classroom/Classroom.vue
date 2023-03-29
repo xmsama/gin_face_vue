@@ -9,15 +9,7 @@
       <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
         <el-form-item label="名称" prop="tableName">
           <el-input placeholder="输入搜索条件" />
-
         </el-form-item>
-        <el-form-item label="状态" prop="userName">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option key="1" value="正常">正常</el-option>
-            <el-option key="0" value="停止">停止</el-option>
-          </el-select>
-        </el-form-item>
-
         <el-form-item>
           <el-button type="primary" icon="search">搜索</el-button>
           <el-button icon="refresh-left">重置</el-button>
@@ -38,10 +30,15 @@
         <el-table-column align="left" label="教室ID" min-width="100" prop="ID" />
         <el-table-column align="left" label="教室名称" min-width="200" prop="Name" />
         <el-table-column align="left" label="签到时间" min-width="150" prop="SignTime">
-          <el-table-column align="left" label="可提前签到时间" min-width="150" prop="TqSignTime">
+          <template #default="scope">
+
+            {{ formatTime(scope.row.SignTime) }}
+          </template>
+        </el-table-column>
+          <el-table-column align="left" label="可提前签到时间" min-width="150" prop="TqSigntime">
             <template #default="scope">
 
-              {{ formatTime(scope.row.SignTime) }}
+              {{ formatTime(scope.row.TqSignTime) }}
             </template>
           </el-table-column>
           <!--        <el-table-column align="left" label="状态" min-width="80" prop="Status" />-->
@@ -70,7 +67,7 @@
             <!--            </el-dropdown>-->
             </template>
 
-          </el-table-column>
+
 
         </el-table-column></el-table>
 
@@ -94,7 +91,7 @@
       :close-on-press-escape="false"
       :close-on-click-modal="false"
     >
-      <div style="height:16vh;overflow:auto;padding:0 12px;">
+      <div style="height:25vh;overflow:auto;padding:0 12px;">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="基础信息" name="first">
             <el-form ref="userForm" :rules="rules" :model="ClassRoom" label-width="120px">

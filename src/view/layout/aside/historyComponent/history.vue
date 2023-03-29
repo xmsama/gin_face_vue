@@ -93,7 +93,8 @@ const showtitle = (item) => {
 
   if (item.query.APPID != undefined) {
     return GetName(item.query.APPID) + item.meta.title
-  } else {
+  }
+  else {
     return item.meta.title
   }
 }
@@ -288,10 +289,12 @@ watch(() => historys.value, () => {
   deep: true
 })
 const GetName = (val) => {
+  // eslint-disable-next-line eqeqeq
   if (app_list.value == undefined ) {
     return ''
   }
   for (let i = 0; i < app_list.value.length; i++) {
+    // eslint-disable-next-line eqeqeq
     if (app_list.value[i].ID == val) {
       return app_list.value[i].Name
     }

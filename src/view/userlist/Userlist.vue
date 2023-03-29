@@ -20,13 +20,6 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" prop="userName">
-          <el-select v-model="value" placeholder="请选择">
-            <el-option key="1" value="正常">已生成人脸数据</el-option>
-            <el-option key="0" value="停止">未生成人脸数据</el-option>
-          </el-select>
-        </el-form-item>
-
         <el-form-item>
           <el-button type="primary" icon="search">搜索</el-button>
           <el-button icon="refresh-left">重置</el-button>

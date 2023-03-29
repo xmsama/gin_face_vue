@@ -77,4 +77,18 @@ export const GetSignHistory = (data) => {
   })
 }
 
+export const GetSignInfo = (data) => {
+  return service({
+    url: '/GetSignInfo',
+    method: 'post',
+    data: data
+  })
+}
+export const DelSignInfo = (data) => {
+  return service({
+    url: '/DelSignInfo',
+    method: 'post',
+    data: data
+  })
+}
 

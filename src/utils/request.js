@@ -7,7 +7,7 @@ import router from '@/router/index'
 
 // console.log(import.meta.env.VITE_BASE_API)
 const service = axios.create({
-  baseURL: 'http://127.0.0.1:8887/api',
+  baseURL: 'http://101.42.249.68:8888/api',
   timeout: 99999
 })
 let acitveAxios = 0

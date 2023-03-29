@@ -3,7 +3,7 @@
  */
 
 const config = {
-  appName: 'WuHu-Admin',
+  appName: '课堂考勤系统',
   appLogo: 'https://www.gin-vue-admin.com/img/logo.png',
   showViteLogo: true
 }

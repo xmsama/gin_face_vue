@@ -8,18 +8,33 @@
       <!-- 初始版本自动化代码工具 -->
       <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
         <el-form-item label="课程名称" prop="tableName">
-          <el-input placeholder="输入搜索条件" />
+          <el-input v-model="SearchList.name"  placeholder="输入搜索条件" />
 
         </el-form-item>
-        <el-form-item label="上课班级" prop="userName">
-          <el-input placeholder="输入搜索条件" />
+        <el-form-item label="上课班级" prop="tableName">
+          <el-select v-model="SearchList.classid" placeholder="请选择">
+            <el-option
+              v-for="item in ClassList"
+              :key="item.ID"
+              :label="item.Name"
+              :value="item.ID"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="上课课室" prop="userName">
-          <el-input placeholder="输入搜索条件" />
+        <el-form-item label="上课课室" prop="tableName">
+          <el-select v-model="SearchList.classroomid" placeholder="请选择">
+            <el-option
+              v-for="item in ClassRoomList"
+              :key="item.ID"
+              :label="item.Name"
+              :value="item.ID"
+            />
+          </el-select>
         </el-form-item>
+
         <el-form-item>
-          <el-button type="primary" icon="search">搜索</el-button>
-          <el-button icon="refresh-left">重置</el-button>
+          <el-button type="primary" icon="search" @click="getTableData">搜索</el-button>
+          <el-button icon="refresh-left" @click="ResetSearch">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -256,10 +271,23 @@ const handleCurrentChange = (val) => {
   page.value = val
   getTableData()
 }
+const SearchList = ref({
+  name: '',
+  classid: '',
+  classroomid: ''
+})
+
+const ResetSearch = () => {
+  SearchList.value = {
+    name: '',
+    classid: '',
+    classroomid: ''
+  }
+}
 
 // 查询
 const getTableData = async() => {
-  const table = await GetLessonList({ page: page.value, pageSize: pageSize.value })
+  const table = await GetLessonList({ page: page.value, pageSize: pageSize.value, ...SearchList.value })
   const classlist = await GetClassList({ page: page.value, pageSize: 99 })
   const classroom = await GetClassRoomList({ page: page.value, pageSize: 99 })
   const timelist = await GetLessonTime({ page: page.value, pageSize: 99 })

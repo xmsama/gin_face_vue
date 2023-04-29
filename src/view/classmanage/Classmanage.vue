@@ -6,26 +6,23 @@
 
     <div class="gva-search-box">
       <!-- 初始版本自动化代码工具 -->
-      <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
-        <el-form-item label="班级名称" prop="tableName">
-<!--          <el-select v-model="value" placeholder="请选择">-->
-<!--            <el-option key="1" value="正常">正常</el-option>-->
-<!--            <el-option key="0" value="停止">停止</el-option>-->
-<!--          </el-select>-->
-                    <el-input placeholder="输入搜索条件" />
+      <el-form ref="autoCodeForm" label-width="120px" :inline="true">
+        <el-form-item label="班级名称"  prop="tableName">
+
+          <el-input placeholder="输入搜索条件" v-model="SearchList.name" />
 
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" icon="search">搜索</el-button>
-          <el-button icon="refresh-left">重置</el-button>
+          <el-button type="primary" icon="search" @click="getTableData">搜索</el-button>
+          <el-button icon="refresh-left" @click="SearchList.name=''">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="gva-table-box">
       <div class="gva-btn-list">
         <el-button size="small" type="primary" icon="plus" @click="addUser">新增班级</el-button>
-<!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
+        <!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
       </div>
       <el-table
         :data="tableData"
@@ -180,10 +177,12 @@ const handleCurrentChange = (val) => {
   page.value = val
   getTableData()
 }
-
+const SearchList = ref({
+  name: ''
+})
 // 查询
 const getTableData = async() => {
-  const table = await GetClassList({ page: page.value, pageSize: pageSize.value })
+  const table = await GetClassList({ page: page.value, pageSize: pageSize.value, ...SearchList.value })
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total
@@ -203,6 +202,7 @@ initPage()
 import { useRouter } from 'vue-router'
 import { getCardTypeList } from '@/api/Card'
 import { DelLessonTime } from '@/api/lesson'
+import { NULL } from 'sass'
 const router = useRouter()
 const RouteCardType = (obj) => {
   router.push({ name: 'cardtype', query: { 'APPID': obj.ID }})
@@ -256,7 +256,6 @@ const enterAddUserDialog = async() => {
       }
     }
   })
-
 }
 
 const Delete = async(obj) => {

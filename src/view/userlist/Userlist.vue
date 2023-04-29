@@ -8,10 +8,10 @@
       <!-- 初始版本自动化代码工具 -->
       <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
         <el-form-item label="学生名称" prop="tableName">
-          <el-input placeholder="输入搜索条件" />
+          <el-input v-model="SearchList.username" placeholder="输入搜索条件" />
         </el-form-item>
         <el-form-item label="班级名称" prop="tableName">
-          <el-select v-model="SearchList.ClassId" placeholder="请选择">
+          <el-select v-model="SearchList.userclass" placeholder="请选择">
             <el-option
               v-for="item in ClassList"
               :key="item.ID"
@@ -21,15 +21,15 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="search">搜索</el-button>
-          <el-button icon="refresh-left">重置</el-button>
+          <el-button type="primary" icon="search" @click="getTableData">搜索</el-button>
+          <el-button icon="refresh-left" @click="ResetSearch">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="gva-table-box">
       <div class="gva-btn-list">
         <el-button size="small" type="primary" icon="plus" @click="addUser">新增学生</el-button>
-        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>
+        <!--        <el-button size="small" type="danger" icon="delete" @click="deluser">批量删除</el-button>-->
       </div>
       <el-table
         :data="tableData"
@@ -48,7 +48,6 @@
             <!--            <el-img width="100px" height="100px" fit="fill" src="@/assets/dashboard.png"/>-->
 
           </template>
-
 
         </el-table-column>
         <el-table-column align="left" label="更新时间" min-width="80" prop="Time" />
@@ -217,7 +216,8 @@ const uploadData = ref({
 })
 
 const SearchList = ref({
-  ClassId: ''
+  userclass: '',
+  username: ''
 })
 
 // 分页
@@ -259,10 +259,15 @@ const Delete = async(obj) => {
       })
     })
 }
-
+const ResetSearch = () => {
+  SearchList.value = {
+    userclass: '',
+    username: ''
+  }
+}
 // 查询
 const getTableData = async() => {
-  const table = await GetUserList({ page: page.value, pageSize: pageSize.value })
+  const table = await GetUserList({ page: page.value, pageSize: pageSize.value, ...SearchList.value })
   const classlist = await GetClassList({ page: page.value, pageSize: 99 })
   if (table.code === 0) {
     ClassList.value = classlist.data.list

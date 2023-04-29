@@ -4,10 +4,10 @@
       <div class="gva-card gva-top-card">
         <div class="gva-top-card-left">
           <div class="gva-top-card-left-title">Welcome To 课堂考勤签到系统</div>
-<!--          <el-button @click=" change" />-->
+          <!--          <el-button @click=" change" />-->
           <div class="gva-top-card-left-dot">今日晴，-999℃ - 1000℃，天气寒冷，注意添加衣物。</div>
           <div class="gva-top-card-left-rows">
-<!--            <img src="http://" style="width: 65px; height: 75px" class="link-icon">-->
+            <!--            <img src="http://" style="width: 65px; height: 75px" class="link-icon">-->
             <el-row>
               <el-col v-for="(data,key) in dataCards" :key="key" :sm="8" :span="8" :xs="24">
                 <div class="flex-center" style="font-size: 14px">
@@ -131,7 +131,7 @@
                     </div>
                   </template>
 
-                  VM-24-8-ubuntu
+                  {{ tableData[0]['ServerName'] }}
                 </el-descriptions-item>
 
                 <el-descriptions-item>
@@ -191,7 +191,7 @@
                   </template>
                   <!--                  <span :style="{color: tableData[0]['Redis'] === '連接失敗 請檢查Redis是否啟動!' ? 'red' : 'green'}">-->
                   <!--                    {{ tableData[0]['Redis'] }}</span>-->
-                  总共：16G
+                  总共： {{ tableData[0]['Ram'] }}
 
                 </el-descriptions-item>
 
@@ -208,17 +208,17 @@
 
                   <!--                  Microsoft Windows 10 专业版（X64）-->
                 </el-descriptions-item>
-<!--                <el-descriptions-item>-->
-<!--                  <template #label>-->
-<!--                    <div class="cell-item">-->
-<!--                      <el-icon :style="iconStyle">-->
-<!--                        <monitor />-->
-<!--                      </el-icon>-->
-<!--                      服务器IP：-->
-<!--                    </div>-->
-<!--                  </template>-->
+                <!--                <el-descriptions-item>-->
+                <!--                  <template #label>-->
+                <!--                    <div class="cell-item">-->
+                <!--                      <el-icon :style="iconStyle">-->
+                <!--                        <monitor />-->
+                <!--                      </el-icon>-->
+                <!--                      服务器IP：-->
+                <!--                    </div>-->
+                <!--                  </template>-->
 
-<!--                </el-descriptions-item>-->
+                <!--                </el-descriptions-item>-->
 
               </el-descriptions>
 
@@ -274,7 +274,7 @@
                       昨日识别数量
                     </div>
                   </template>
-                  0
+                  {{ tableData[0]['LastDaySuccess']+tableData[0]['LastDayFail'] }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template #label>
@@ -285,7 +285,7 @@
                       昨日识别失败数量：
                     </div>
                   </template>
-                  0
+                  {{ tableData[0]['LastDayFail'] }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template #label>
@@ -296,7 +296,7 @@
                       今日识别数量：
                     </div>
                   </template>
-                  0
+                  {{ tableData[0]['TodaySuccess']+tableData[0]['TodayFail'] }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                   <template #label>
@@ -307,7 +307,7 @@
                       今日识别失败数量：
                     </div>
                   </template>
-                  0
+                  {{ tableData[0]['TodayFail'] }}
                 </el-descriptions-item>
               </el-descriptions>
 
@@ -317,67 +317,67 @@
 
       </el-col>
     </el-row>
-<!--    <div class="gva-card-box">-->
-<!--      <div class="gva-card">-->
-<!--        <div class="card-header">-->
-<!--          <span>数据统计</span>-->
-<!--        </div>-->
+    <!--    <div class="gva-card-box">-->
+    <!--      <div class="gva-card">-->
+    <!--        <div class="card-header">-->
+    <!--          <span>数据统计</span>-->
+    <!--        </div>-->
 
-<!--        <el-table-->
-<!--          :data="tableData"-->
-<!--          style="width: 100%"-->
-<!--        >-->
-<!--          <el-table-column-->
-<!--            label="名称"-->
-<!--            prop="Name"-->
-<!--            width="180"-->
-<!--          />-->
-<!--          <el-table-column-->
-<!--            align="center"-->
-<!--            label="状态"-->
-<!--            prop="state"-->
-<!--          >-->
-<!--            <template #default="scope">-->
-<!--              <el-tag-->
-<!--                :type="scope.row.Status=='正常'?'success':scope.row.Status=='停用'?'danger':scope.row.Status=='停用'?'danger':'success'"-->
-<!--              >-->
-<!--                {{ Statu(scope.row.Status) }}-->
-<!--              </el-tag>-->
+    <!--        <el-table-->
+    <!--          :data="tableData"-->
+    <!--          style="width: 100%"-->
+    <!--        >-->
+    <!--          <el-table-column-->
+    <!--            label="名称"-->
+    <!--            prop="Name"-->
+    <!--            width="180"-->
+    <!--          />-->
+    <!--          <el-table-column-->
+    <!--            align="center"-->
+    <!--            label="状态"-->
+    <!--            prop="state"-->
+    <!--          >-->
+    <!--            <template #default="scope">-->
+    <!--              <el-tag-->
+    <!--                :type="scope.row.Status=='正常'?'success':scope.row.Status=='停用'?'danger':scope.row.Status=='停用'?'danger':'success'"-->
+    <!--              >-->
+    <!--                {{ Statu(scope.row.Status) }}-->
+    <!--              </el-tag>-->
 
-<!--            </template>-->
-<!--          </el-table-column>-->
+    <!--            </template>-->
+    <!--          </el-table-column>-->
 
-<!--          <el-table-column-->
-<!--            label="版本号"-->
-<!--            prop="Version"-->
-<!--          />-->
+    <!--          <el-table-column-->
+    <!--            label="版本号"-->
+    <!--            prop="Version"-->
+    <!--          />-->
 
-<!--          <el-table-column-->
-<!--            label="解绑扣除（时）"-->
-<!--            prop="Unbind_Del"-->
-<!--          />-->
-<!--          <el-table-column-->
-<!--            label="免费解绑次数"-->
-<!--            prop="Free_Unbind"-->
-<!--          />-->
-<!--          <el-table-column-->
-<!--            label="解绑间隔（时）"-->
-<!--            prop="Unbind_Interval"-->
-<!--          />-->
-<!--        </el-table>-->
-<!--        <div class="gva-pagination">-->
-<!--          <el-pagination-->
-<!--            :current-page="page"-->
-<!--            :page-size="pageSize"-->
-<!--            :page-sizes="[5, 10]"-->
-<!--            :total="total"-->
-<!--            layout="total, sizes, prev, pager, next, jumper"-->
-<!--            @current-change="handleCurrentChange"-->
-<!--            @size-change="handleSizeChange"-->
-<!--          />-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--          <el-table-column-->
+    <!--            label="解绑扣除（时）"-->
+    <!--            prop="Unbind_Del"-->
+    <!--          />-->
+    <!--          <el-table-column-->
+    <!--            label="免费解绑次数"-->
+    <!--            prop="Free_Unbind"-->
+    <!--          />-->
+    <!--          <el-table-column-->
+    <!--            label="解绑间隔（时）"-->
+    <!--            prop="Unbind_Interval"-->
+    <!--          />-->
+    <!--        </el-table>-->
+    <!--        <div class="gva-pagination">-->
+    <!--          <el-pagination-->
+    <!--            :current-page="page"-->
+    <!--            :page-size="pageSize"-->
+    <!--            :page-sizes="[5, 10]"-->
+    <!--            :total="total"-->
+    <!--            layout="total, sizes, prev, pager, next, jumper"-->
+    <!--            @current-change="handleCurrentChange"-->
+    <!--            @size-change="handleSizeChange"-->
+    <!--          />-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 <script setup>
@@ -386,11 +386,19 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 // import { getAppList } from '@/api/App'
 import { getAuthorityList } from '@/api/authority'
+import { GetIndexInfo } from '@/api/api'
 
 const page = ref(1)
 const total = ref(0)
 const pageSize = ref(10)
-const tableData = ref([])
+const tableData = ref([{
+  'Ram': '',
+  'ServerName': '',
+  'TodayFail': '',
+  'TodaySuccess': '',
+  'LastDaySuccess': '',
+  'LastDayFail': '',
+}])
 // 分页
 const handleSizeChange = (val) => {
   pageSize.value = val
@@ -402,39 +410,17 @@ const handleCurrentChange = (val) => {
   getTableData()
 }
 
-const AppInfo = ref({
-  Name: '',
-  Version: 0.1,
-  App_Mode: '0',
-  Update_Address: '',
-  Notice: '',
-  Unbind_Del: 0,
-  Unbind_Interval: 0,
-  Free_Unbind: 0,
-  Rsa_Private: '',
-  Rsa_Public: '',
-  Aes_Key: '',
-  ForcedUpdate: 0,
-  BindMac: 1,
-  FreeMode: 0,
-  CanUnbind: 1,
-  CanRegister: 1,
-  CanLogin: 1
-})
-
 const getTableData = async() => {
-  const table = await getAppList({ page: page.value, pageSize: pageSize.value })
+  // const table = await getAppList({ page: page.value, pageSize: pageSize.value })
+  const table = await GetIndexInfo()
   if (table.code === 0) {
-    tableData.value = table.data.list
-    total.value = table.data.total
-    page.value = table.data.page
-    pageSize.value = table.data.pageSize
+    tableData.value = table.data
   }
 }
 const initPage = async() => {
-  getTableData()
+  await getTableData()
 }
-// initPage()
+initPage()
 const dataCards = ref([
   {
     name: '班级总数',

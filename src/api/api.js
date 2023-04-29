@@ -129,3 +129,10 @@ export const deleteApisByIds = (data) => {
     data
   })
 }
+export const GetIndexInfo = () => {
+  return service({
+    url: '/GetIndexInfo',
+    method: 'post',
+
+  })
+}

@@ -8,11 +8,11 @@
       <!-- 初始版本自动化代码工具 -->
       <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
         <el-form-item label="名称" prop="tableName">
-          <el-input placeholder="输入搜索条件" />
+          <el-input placeholder="输入搜索条件" v-model="SearchList.name"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="search">搜索</el-button>
-          <el-button icon="refresh-left">重置</el-button>
+          <el-button type="primary" icon="search" @click="getTableData">搜索</el-button>
+          <el-button icon="refresh-left" @click="SearchList.name=''"> 重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -167,10 +167,12 @@ const handleCurrentChange = (val) => {
   page.value = val
   getTableData()
 }
-
+const SearchList = ref({
+  name: ''
+})
 // 查询
 const getTableData = async() => {
-  const table = await GetClassRoomList({ page: page.value, pageSize: pageSize.value })
+  const table = await GetClassRoomList({ page: page.value, pageSize: pageSize.value,...SearchList.value })
   if (table.code === 0) {
     tableData.value = table.data.list
     total.value = table.data.total

@@ -7,14 +7,14 @@
     <div class="gva-search-box">
       <!-- 初始版本自动化代码工具 -->
       <el-form ref="autoCodeForm" :rules="rules" :model="form" label-width="120px" :inline="true">
-        <el-form-item label="名称" prop="tableName">
-          <el-input placeholder="输入搜索条件" />
+        <el-form-item label="ID" prop="tableName">
+          <el-input placeholder="输入搜索ID" v-model="SearchList.id" />
 
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" icon="search">搜索</el-button>
-          <el-button icon="refresh-left">重置</el-button>
+          <el-button type="primary" icon="search" @click="getTableData">搜索</el-button>
+          <el-button icon="refresh-left" @click="SearchList.id=''">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -303,10 +303,12 @@ const Delete = async(obj) => {
       })
     })
 }
-
+const SearchList = ref({
+  id: ''
+})
 // 查询
 const getTableData = async() => {
-  const table = await GetSignHistory({ page: page.value, pageSize: pageSize.value })
+  const table = await GetSignHistory({ page: page.value, pageSize: pageSize.value,...SearchList.value })
   const classlist = await GetClassList({ page: 1, pageSize: 99 })
   const classroom = await GetClassRoomList({ page: 1, pageSize: 99 })
   const lessonlist = await GetLessonList({ page: 1, pageSize: 99 })
